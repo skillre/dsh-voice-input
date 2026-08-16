@@ -14,7 +14,8 @@ export type VoiceKey =
   | 'tooLong'
   | 'failed'
   | 'empty'
-  | 'configTitle' | 'configEngine' | 'configEngineFlash' | 'configEngineSentence'
+  | 'configTitle' | 'configDescription' | 'configExpand' | 'configCollapse'
+  | 'configEngine' | 'configEngineFlash' | 'configEngineSentence'
   | 'configAppId' | 'configSave' | 'configLoading' | 'configSaving' | 'configSaved'
 
 /** Simplified Chinese dictionary (the key-set source of truth). */
@@ -29,6 +30,9 @@ export const zh: Record<VoiceKey, string> = {
   'failed': '语音识别失败：{reason}',
   'empty': '（空）',
   'configTitle': '语音识别设置',
+  'configDescription': '语音输入的识别引擎与腾讯云 AppId 配置，保存即生效。',
+  'configExpand': '展开',
+  'configCollapse': '收起',
   'configEngine': '识别引擎',
   'configEngineFlash': '实时流式（flash，按音频时长计费）',
   'configEngineSentence': '一句话（sentence，按次计费）',
@@ -51,6 +55,9 @@ export const en: Record<VoiceKey, string> = {
   'failed': 'Speech recognition failed: {reason}',
   'empty': '(empty)',
   'configTitle': 'Voice input settings',
+  'configDescription': 'Recognition engine and Tencent Cloud AppId for voice input; saved immediately.',
+  'configExpand': 'Expand',
+  'configCollapse': 'Collapse',
   'configEngine': 'Recognition engine',
   'configEngineFlash': 'Real-time streaming (flash, billed by audio duration)',
   'configEngineSentence': 'One-sentence (sentence, billed per call)',

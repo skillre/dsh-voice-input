@@ -159,6 +159,7 @@ interface CardState {
  * card works without any settings-namespace whitelist in the core apiproxy.
  */
 export function VoiceConfigCard({ t }: VoiceConfigCardProps) {
+  const [open, setOpen] = useState(false)
   const [state, setState] = useState<CardState>({
     engine: 'flash', appId: '', loading: false, saving: false, error: null, saved: false,
   })
@@ -196,49 +197,78 @@ export function VoiceConfigCard({ t }: VoiceConfigCardProps) {
   const disabled = state.loading || state.saving
   return (
     <div className={css.card} data-voice-config-card>
-      <div className={css.cardHead}>{t('configTitle')}</div>
-      <label className={css.cardField}>
-        <span className={css.cardLabel}>{t('configEngine')}</span>
-        <select
-          className={css.cardSelect}
-          value={state.engine}
-          disabled={disabled}
-          onChange={(event) => {
-            const value = event.target.value
-            setState(current => ({ ...current, engine: value === 'sentence' ? 'sentence' : 'flash' }))
-          }}
-        >
-          <option value="flash">{t('configEngineFlash')}</option>
-          <option value="sentence">{t('configEngineSentence')}</option>
-        </select>
-      </label>
-      <label className={css.cardField}>
-        <span className={css.cardLabel}>{t('configAppId')}</span>
-        <input
-          className={css.cardInput}
-          type="text"
-          inputMode="numeric"
-          placeholder="1257133316"
-          value={state.appId}
-          disabled={disabled}
-          onChange={(event) => {
-            setState(current => ({ ...current, appId: event.target.value, saved: false }))
-          }}
-        />
-      </label>
-      <div className={css.cardFoot}>
-        <span className={css.cardStatus} data-voice-config-status>
-          {state.loading ? t('configLoading') : state.saving ? t('configSaving') : state.saved ? t('configSaved') : state.error ?? ''}
+      <button
+        type="button"
+        className={css.cardHeader}
+        aria-expanded={open}
+        aria-label={`${t(open ? 'configCollapse' : 'configExpand')}: ${t('configTitle')}`}
+        onClick={() => { setOpen(current => !current) }}
+      >
+        <span className={css.cardHeadText}>
+          <span className={css.cardName}>{t('configTitle')}</span>
+          <span className={css.cardDescription}>{t('configDescription')}</span>
         </span>
-        <button
-          type="button"
-          className={css.cardSave}
-          disabled={disabled}
-          onClick={save}
+        <svg
+          className={open ? css.cardChevronOpen : css.cardChevron}
+          viewBox="0 0 14 14"
+          width="14"
+          height="14"
+          aria-hidden
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          {t('configSave')}
-        </button>
-      </div>
+          <path d="M3.5 5.5 7 9l3.5-3.5" />
+        </svg>
+      </button>
+      {open && (
+        <div className={css.cardBody}>
+          <label className={css.cardField}>
+            <span className={css.cardLabel}>{t('configEngine')}</span>
+            <select
+              className={css.cardSelect}
+              value={state.engine}
+              disabled={disabled}
+              onChange={(event) => {
+                const value = event.target.value
+                setState(current => ({ ...current, engine: value === 'sentence' ? 'sentence' : 'flash' }))
+              }}
+            >
+              <option value="flash">{t('configEngineFlash')}</option>
+              <option value="sentence">{t('configEngineSentence')}</option>
+            </select>
+          </label>
+          <label className={css.cardField}>
+            <span className={css.cardLabel}>{t('configAppId')}</span>
+            <input
+              className={css.cardInput}
+              type="text"
+              inputMode="numeric"
+              placeholder="1257133316"
+              value={state.appId}
+              disabled={disabled}
+              onChange={(event) => {
+                setState(current => ({ ...current, appId: event.target.value, saved: false }))
+              }}
+            />
+          </label>
+          <div className={css.cardFooter}>
+            <span className={css.cardStatus} data-voice-config-status>
+              {state.loading ? t('configLoading') : state.saving ? t('configSaving') : state.saved ? t('configSaved') : state.error ?? ''}
+            </span>
+            <button
+              type="button"
+              className={css.cardSave}
+              disabled={disabled}
+              onClick={save}
+            >
+              {t('configSave')}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
