@@ -1,5 +1,5 @@
 {
-  "name": "dsh-voice-input",
+  "name": "dsh-tencent-voice-input",
   "description": "Tencent Cloud ASR voice input for DeepSeek Harness: composer mic + live preview + settings card, installed as a pure pluggable bundle (no core changes)",
   "version": "0.1.0",
   "type": "module",

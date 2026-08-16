@@ -1,4 +1,4 @@
-# dsh-voice-input
+# dsh-tencent-voice-input
 
 给 DeepSeek Harness（DSH）Web GUI 加腾讯云语音识别（ASR）语音输入的**纯插件 bundle**：输入框工具行 🎤 麦克风、边说边出的实时预览、结束自动填入输入框；引擎与 AppId 在「设置 → 插件 → 插件配置 → 语音识别设置」卡片里配置。
 
@@ -12,12 +12,12 @@
 ## 安装
 
 ```sh
-dsh plugin --profile web add dsh-voice-input
+dsh plugin --profile web add dsh-tencent-voice-input
 ```
 
 然后**重启 dsh web**。
 
-（或直接加 tarball / git 目录：`dsh plugin --profile web add ./dsh-voice-input-0.1.0.tgz`）
+（或直接加 tarball / git 目录：`dsh plugin --profile web add ./dsh-tencent-voice-input-0.1.0.tgz`）
 
 ## 一次性配置
 
@@ -53,5 +53,5 @@ GET/POST /stt/config       → 引擎/AppId 读写（设置卡片数据通道）
 ## 卸载
 
 ```sh
-dsh plugin --profile web remove dsh-voice-input
+dsh plugin --profile web remove dsh-tencent-voice-input
 ```

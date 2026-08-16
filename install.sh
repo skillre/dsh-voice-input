@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# dsh-voice-input installer (dual-face bundle: Tencent STT proxy + composer mic)
+# dsh-tencent-voice-input installer (dual-face bundle: Tencent STT proxy + composer mic)
 # Installs into a DSH profile without needing pnpm or the dsh CLI.
 #
 # Usage: ./install.sh [--profile <name>]   (default profile: web)
@@ -26,26 +26,26 @@ while [ $# -gt 0 ]; do
 done
 
 PROFILE_DIR="$DSH_HOME/profiles/$PROFILE"
-BEGIN_MARKER="# --- dsh-voice-input: begin ---"
-END_MARKER="# --- dsh-voice-input: end ---"
+BEGIN_MARKER="# --- dsh-tencent-voice-input: begin ---"
+END_MARKER="# --- dsh-tencent-voice-input: end ---"
 
 if [ ! -d "$PROFILE_DIR" ]; then
   echo "error: profile not found at $PROFILE_DIR (run dsh web once first)" >&2
   exit 1
 fi
 
-echo "==> Installing dsh-voice-input"
+echo "==> Installing dsh-tencent-voice-input"
 echo "    DSH_HOME : $DSH_HOME"
 echo "    profile  : $PROFILE ($PROFILE_DIR)"
 
 # 1. bundle package into vendor/ ----------------------------------------------
-mkdir -p "$PROFILE_DIR/vendor/dsh-voice-input" "$PROFILE_DIR/node_modules"
-cp -R "$DIST_DIR/lib" "$PROFILE_DIR/vendor/dsh-voice-input/"
-cp "$DIST_DIR/package.json" "$DIST_DIR/cordis.patch.yml" "$PROFILE_DIR/vendor/dsh-voice-input/"
-echo "==> bundle package copied to $PROFILE_DIR/vendor/dsh-voice-input"
+mkdir -p "$PROFILE_DIR/vendor/dsh-tencent-voice-input" "$PROFILE_DIR/node_modules"
+cp -R "$DIST_DIR/lib" "$PROFILE_DIR/vendor/dsh-tencent-voice-input/"
+cp "$DIST_DIR/package.json" "$DIST_DIR/cordis.patch.yml" "$PROFILE_DIR/vendor/dsh-tencent-voice-input/"
+echo "==> bundle package copied to $PROFILE_DIR/vendor/dsh-tencent-voice-input"
 
 # 2. node_modules symlink (the loader resolves the bare package name) ----------
-ln -sfn ../vendor/dsh-voice-input "$PROFILE_DIR/node_modules/dsh-voice-input"
+ln -sfn ../vendor/dsh-tencent-voice-input "$PROFILE_DIR/node_modules/dsh-tencent-voice-input"
 echo "==> node_modules symlink created"
 
 # 3. profile manifest: create if missing, always record the link: dep ----------
@@ -68,7 +68,7 @@ node - "$PROFILE_DIR/package.json" <<'NODE'
 const fs = require('fs')
 const [path] = process.argv.slice(2)
 const pkg = JSON.parse(fs.readFileSync(path, 'utf8'))
-pkg.dependencies = { ...(pkg.dependencies ?? {}), 'dsh-voice-input': 'link:./vendor/dsh-voice-input' }
+pkg.dependencies = { ...(pkg.dependencies ?? {}), 'dsh-tencent-voice-input': 'link:./vendor/dsh-tencent-voice-input' }
 fs.writeFileSync(path, JSON.stringify(pkg, null, 2) + '\n')
 NODE
 echo "==> dependency recorded in profile manifest"
@@ -100,7 +100,7 @@ fi
 # 5. keys file ----------------------------------------------------------------
 if [ ! -f "$DSH_HOME/.env" ]; then
   cat > "$DSH_HOME/.env" <<'ENVEOF'
-# dsh-voice-input: uncomment and fill in your Tencent Cloud keys, then restart.
+# dsh-tencent-voice-input: uncomment and fill in your Tencent Cloud keys, then restart.
 #TENCENTCLOUD_SECRET_ID=AKIDxxxx
 #TENCENTCLOUD_SECRET_KEY=xxxx
 #TENCENTCLOUD_APPID=1234567890

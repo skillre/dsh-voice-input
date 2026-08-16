@@ -1,4 +1,4 @@
-# dsh-voice-input
+# dsh-tencent-voice-input
 
 Tencent Cloud ASR (speech recognition) voice input for the DeepSeek Harness
 (DSH) web GUI, as a pure pluggable bundle: a mic in the composer tool row with
@@ -20,12 +20,12 @@ Tencent secrets) and the browser plugin (`lib/client.js` — mic + card); the
 ## Install
 
 ```sh
-dsh plugin --profile web add dsh-voice-input
+dsh plugin --profile web add dsh-tencent-voice-input
 ```
 
 Then restart `dsh web`.
 
-(Or add a tarball / git directory: `dsh plugin --profile web add ./dsh-voice-input-0.1.0.tgz`)
+(Or add a tarball / git directory: `dsh plugin --profile web add ./dsh-tencent-voice-input-0.1.0.tgz`)
 
 ## One-time configuration
 
@@ -64,5 +64,5 @@ GET/POST /stt/config       → engine/AppId read/write (the settings card's data
 ## Remove
 
 ```sh
-dsh plugin --profile web remove dsh-voice-input
+dsh plugin --profile web remove dsh-tencent-voice-input
 ```
