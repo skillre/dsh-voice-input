@@ -1,0 +1,194 @@
+/* Voice seat: 28px mic circle matching the composer's attach control, with a
+   red listening state and an inline error bubble. */
+
+.seat {
+  position: relative;
+  /* Horizontal cluster: mic + gear sit side by side (a single-cell grid
+     would stack them, since the seat can hold two controls). Absolute
+     bubbles (.preview/.error/.configPanel) anchor to this box regardless. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex: none;
+}
+
+/* Mic circle (mirrors .add in InputBar.module.css). */
+.mic {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: var(--dsw-specific-selector);
+  color: var(--dsw-alias-label-primary);
+  cursor: pointer;
+  transition: background-color 100ms ease, color 100ms ease;
+}
+
+.mic:hover:not(:disabled) {
+  background: var(--dsw-alias-interactive-bg-hover-solid);
+}
+
+.mic:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Listening: danger fill, white glyph, soft pulse. */
+.micActive,
+.micActive:hover:not(:disabled) {
+  background: var(--dsw-alias-state-error-primary);
+  color: #fff;
+  animation: voice-pulse 1.4s ease-in-out infinite;
+}
+
+/* Recognizing: keep the danger seat but drop the pulse (busy, not live). */
+.micBusy,
+.micBusy:hover:not(:disabled) {
+  background: var(--dsw-alias-state-error-primary);
+  color: #fff;
+  opacity: 0.8;
+}
+
+@keyframes voice-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--dsw-alias-state-error-primary) 45%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+}
+
+/* Live preview bubble above the button while recording: what the microphone
+   heard so far, re-recognized every few seconds. Pointer-inert, scrollable,
+   capped so a long utterance cannot tower over the composer.
+   width: max-content escapes the 28px button seat (the absolute containing
+   block), so the bubble grows horizontally with its text instead of stacking
+   one character per line; max-width then caps it and wraps. */
+.preview {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: max-content;
+  max-width: 340px;
+  max-height: 128px;
+  overflow-y: auto;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  background: var(--dsw-alias-bg-overlay);
+  color: var(--dsw-alias-label-primary);
+  font-size: 12px;
+  line-height: 17px;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+/* Transient error bubble above the button; pointer-inert so it never blocks
+   the composer controls. Same width: max-content escape as .preview. */
+.error {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  width: max-content;
+  max-width: 240px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--dsw-alias-state-error-primary);
+  color: #fff;
+  font-size: 12px;
+  line-height: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
+
+/* The engine/AppId card on Settings → Plugins → 插件配置: a plain block that
+   blends with the section's card chrome (PluginCard supplies the shell). */
+.card {
+  display: grid;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.cardHead {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.cardField {
+  display: grid;
+  gap: 4px;
+}
+
+.cardLabel {
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--dsw-alias-label-secondary);
+}
+
+.cardSelect,
+.cardInput {
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: 8px;
+  background: var(--dsw-alias-bg-layer-1);
+  color: var(--dsw-alias-label-primary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.cardSelect:disabled,
+.cardInput:disabled {
+  opacity: 0.6;
+}
+
+.cardFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cardStatus {
+  font-size: 12px;
+  line-height: 17px;
+  color: var(--dsw-alias-label-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardSave {
+  flex: none;
+  height: 28px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--dsw-alias-button-info-fill);
+  color: #fff;
+  font-size: 13px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+.cardSave:hover:not(:disabled) {
+  background: var(--dsw-alias-button-info-hover);
+}
+
+.cardSave:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

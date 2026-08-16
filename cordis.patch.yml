@@ -1,0 +1,7 @@
+# dsh-voice-input bundle patch: one dual-face plugin row. The same package
+# exports the Node host half (lib/index.js — the Tencent STT proxy) and the
+# browser client half (lib/client.js — the composer mic + settings card), so a
+# single `dsh plugin add dsh-voice-input` wires both.
+- insert:
+    - id: voice-input
+      name: 'dsh-voice-input'
